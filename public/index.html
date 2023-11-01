@@ -25,12 +25,78 @@
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ahxibduj40"></script>
 
     <style media="screen">
-      
+      *{margin:0; padding:0; box-sizing: border-box;}
+      body{width :360px; height:740px}
+      #root1 {
+        width:100%;
+        height:10%;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left:2vw;
+        padding-right:2vw;
+      }
+      #root1>h1{
+        font-size: 6vw;
+        font-family: fantasy;
+      }
+      #root1 > button{
+        width:10vw;
+        height:5vh;
+        background-image: url('/public/menuIcon.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border-radius: 50%;
+        background-position: center center;
+      }
+      #root2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .menu {
+        display: none; /* 초기에 숨김 */
+        position:fixed;
+        z-index: 999;
+        background-color: #fff;
+        left : 70vw;
+        top : 8vh;
+      }
+      .menu>ul>li{
+        width:25vw;
+        height:5vh;
+        list-style: none;
+        border: solid 1px black;
+      }
+      a{
+        text-decoration: none;
+        color : black;
+      }
+    .menu.open {
+        display: block;
+      }
+    .hamburger-button{
+      cursor: pointer;
+    }
+    
     </style>
   </head>
   <body>
-    <div id="map" style="width:100%;height:400px;"></div>
-
+    <div id="root1">
+      <h1>Ramen-log</h1>
+      <button class="hamburger-button"></button>
+      <nav class="menu">
+        <ul>
+            <li><a href="#">빠른검색</a></li>
+            <li><a href="#">고급검색</a></li>
+            <li><a href="#">즐겨찾기</a></li>
+            <li><a href="#">회원가입</a></li>
+        </ul>
+    </nav>
+    </div>
+    <div id="root2">
+      <div id="map" style="width:90vw;height:88vh;"></div>
+    </div>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const loadEl = document.querySelector('#load');
@@ -70,13 +136,19 @@
       });
 
       var mapOptions = {
-    center: new naver.maps.LatLng(37.3595704, 127.105399),
-    zoom: 10
-};
+        center: new naver.maps.LatLng(36.350411, 127.384547),
+        zoom: 15
+      };
 
-var map = new naver.maps.Map('map', mapOptions);
+      var map = new naver.maps.Map('map', mapOptions);
 
+      const hamburgerButton = document.querySelector('.hamburger-button');
+      const menu = document.querySelector('.menu');
 
+      hamburgerButton.addEventListener('click', function() {
+          menu.classList.toggle('open');
+      });
     </script>
   </body>
 </html>
+
