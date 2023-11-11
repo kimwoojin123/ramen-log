@@ -1,29 +1,29 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const router = new Director();
+import page from './page.mjs';
+import { initializeApp } from './app.js';
 
-  // 페이지 경로와 해당 페이지를 렌더링할 함수를 추가합니다.
-  router.addRoute("#quick-search", () => {
-    renderQuickSearchPage();
-  });
+function renderQuickSearchPage() {
+  const root2 = document.getElementById("root2");
+  root2.innerHTML = "<p>빠른 검색 페이지 내용</p>";
+}
 
-  router.addRoute("#advanced-search", () => {
-    renderAdvancedSearchPage();
-  });
+function renderAdvancedSearchPage() {
+  const root2 = document.getElementById("root2");
+  root2.innerHTML = "<p>고급 검색 페이지 내용</p>";
+}
 
-  router.addRoute("#favorites", () => {
-    renderFavoritesPage();
-  });
+function renderFavoritesPage() {
+  const root2 = document.getElementById("root2");
+  root2.innerHTML = "<p>즐겨찾기 페이지 내용</p>";
+}
 
-  router.addRoute("#signup", () => {
-    renderSignupPage();
-  });
+function renderSignupPage() {
+  const root2 = document.getElementById("root2");
+  root2.innerHTML = "<p>회원가입 페이지 내용</p>";
+}
 
-  // 기본 라우트 설정 (해시값이 없는 경우 기본 페이지 설정)
-  router.setDefaultRoute("#quick-search");
 
-  router.handleRoute();
-
-  router.on("notfound", () => {
-    console.log("Page not found");
-  });
-});
+page('/', renderQuickSearchPage);
+page('/advanced-search', renderAdvancedSearchPage);
+page('/favorites', renderFavoritesPage);
+page('/signup', renderSignupPage);
+page();
