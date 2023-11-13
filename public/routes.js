@@ -2,11 +2,11 @@ const pages = {
   quickSearch: "빠른 검색 페이지 내용",
   advancedSearch: "고급 검색 페이지 내용",
   favorites: "즐겨찾기 페이지 내용",
-  signup: `<form action="/signup" method="post">
-  <input type="text" name="id" placeholder="아이디">
-  <input type="password" name="pw" placeholder="비밀번호">
-  <input type="submit" value="가입">
-</form>`,
+  signup: `<form id="signup-form" action="/" method="post">
+    <input type="text" name="id" placeholder="아이디">
+    <input type="password" name="pw" placeholder="비밀번호">
+    <input type="submit" value="가입">
+  </form>`,
 };
 
 function renderPage(pageName) {
