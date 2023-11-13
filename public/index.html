@@ -79,17 +79,22 @@
       cursor: pointer;
     }
     
+    #load {
+      display:none
+    }
+
+
     </style>
     
   </head>
   <body>
     <div id="root1">
-      <h1>Ramen-log</h1>
+      <h1><a href="/">Ramen-log</a></h1>
       <button class="hamburger-button"></button>
       <nav class="menu">
         <ul>
-          <li><a href="#quick-search">빠른검색</a></li>
-          <li><a href="#advanced-search">고급검색</a></li>
+          <li><a href="#quickSearch">빠른검색</a></li>
+          <li><a href="#advancedSearch">고급검색</a></li>
           <li><a href="#favorites">즐겨찾기</a></li>
           <li><a href="#signup">회원가입</a></li>
         </ul>
@@ -99,15 +104,17 @@
       <div id="map" style="width:90vw;height:88vh;"></div>
     </div>
     <div id="root3"></div>
+    <div id="load"></div>
     <script type="module" src="routes.js"></script>
     <script type="module" src="app.js"></script>
+    
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const loadEl = document.querySelector('#load');
 
         try {
-          initializeApp(); // Firebase 초기화 함수 호출
+          // initializeApp(); // Firebase 초기화 함수 호출
           let app = firebase.app();
           let features = [
             'auth', 

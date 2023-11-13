@@ -1,9 +1,5 @@
 import "./routes.js";
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
-import "firebase/firestore";
-import "firebase/analytics"; // 필요한 모듈 추가
+import {initializeApp} from "firebase-admin";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBxyxuRlvxV3KsA4KErPwlZCPhbsHDN-IU",
@@ -15,16 +11,5 @@ const firebaseConfig = {
   measurementId: "G-LZHR47DK5H",
 };
 
-// 나머지 코드는 그대로 유지
-const auth = firebase.auth();
-const database = firebase.database();
-const firestore = firebase.firestore();
-
-// initializeApp 함수 정의
-export function initializeApp() {
-  // Firebase 초기화
-  firebase.initializeApp(firebaseConfig);
-}
-
 // DOMContentLoaded 이벤트에 initializeApp 함수를 호출하는 부분을 이동
-document.addEventListener("DOMContentLoaded", initializeApp);
+document.addEventListener("DOMContentLoaded", initializeApp(firebaseConfig));
