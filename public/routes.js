@@ -2,7 +2,7 @@ const pages = {
   quickSearch: "빠른 검색 페이지 내용",
   advancedSearch: "고급 검색 페이지 내용",
   favorites: "즐겨찾기 페이지 내용",
-  signup: `<form id="signup-form" action="/" method="post">
+  signup: `<form id="signup-form" action="#" method="post">
     <input type="text" name="id" placeholder="아이디">
     <input type="password" name="pw" placeholder="비밀번호">
     <input type="submit" value="가입">
@@ -24,3 +24,13 @@ window.addEventListener("hashchange", () => {
   const pageName = hash.substring(1);
   renderPage(pageName);
 });
+
+// `users` 컬렉션을 만듭니다.
+firebase.firestore().collection("users", {autoId: true});
+
+// `signup` 함수를 `/signup` 경로에 연결합니다.
+const signupForm = document.getElementById("signup-form");
+if (signupForm) {
+  // `signup-form` 요소에 `submit` 이벤트 리스너를 연결합니다.
+  signupForm.addEventListener("submit", join);
+}
