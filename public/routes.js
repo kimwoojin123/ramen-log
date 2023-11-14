@@ -25,9 +25,6 @@ window.addEventListener("hashchange", () => {
   renderPage(pageName);
 });
 
-// `users` 컬렉션을 만듭니다.
-firebase.firestore().collection("users", {autoId: true});
-
 // `signup` 함수를 `/signup` 경로에 연결합니다.
 const signupForm = document.getElementById("signup-form");
 if (signupForm) {

@@ -23,18 +23,6 @@ function getSignupInfo() {
   };
 }
 
-// 회원가입 정보를 DB에 추가하는 함수입니다.
-function addSignupInfo(signupInfo) {
-  // `users` 컬렉션에 새로운 문서를 추가합니다.
-  firebase.firestore().collection("users").add({
-    id: signupInfo.id,
-    pw: signupInfo.pw,
-  });
-
-  // 성공 메시지를 표시합니다.
-  alert("회원가입에 성공했습니다.");
-}
-
 // `join()` 함수를 `routes.js` 파일에서 export합니다.
 export {join};
 
@@ -46,9 +34,20 @@ function join(event) {
   // 회원가입 정보를 가져옵니다.
   const signupInfo = getSignupInfo();
 
-  // 회원가입 정보를 DB에 추가합니다.
-  firebase.firestore().collection("users").add({
-    id: signupInfo.id,
-    pw: signupInfo.pw,
-  });
+  // `users` 컬렉션 내에 새로운 문서를 생성합니다.
+  const userDocRef = firebase.firestore().collection("users").doc();
+
+  // 새로운 문서에 회원가입 정보를 추가합니다.
+  userDocRef
+    .set({
+      id: signupInfo.id,
+      pw: signupInfo.pw,
+    })
+    .then(() => {
+      // 성공 메시지를 표시합니다.
+      alert("회원가입에 성공했습니다.");
+    })
+    .catch((error) => {
+      console.error("Error adding document:", error);
+    });
 }
