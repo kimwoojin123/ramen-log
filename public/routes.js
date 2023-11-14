@@ -1,15 +1,6 @@
-// Firebase 프로젝트에 대한 인증 정보를 설정합니다.
-// if (!firebase.apps.length) {
-//   firebase.initializeApp({
-//     apiKey: "AIzaSyBxyxuRlvxV3KsA4KErPwlZCPhbsHDN-IU",
-//     authDomain: "ramen-log.firebaseapp.com",
-//     projectId: "ramen-log",
-//     storageBucket: "ramen-log.appspot.com",
-//     messagingSenderId: "292296321273",
-//     appId: "1:292296321273:web:bacc165856b927edff5a28",
-//     measurementId: "G-LZHR47DK5H",
-//   });
-// }
+
+
+
 
 const pages = {
   quickSearch: "빠른 검색 페이지 내용",
@@ -31,10 +22,7 @@ function renderPage(pageName) {
   root3.innerHTML = pages[pageName];
 }
 
-const signupForm = document.getElementById("signup-form");
-if (signupForm) {
-  signupForm.addEventListener("submit", join);
-}
+
 
 window.addEventListener("hashchange", () => {
   const hash = window.location.hash;
@@ -43,9 +31,9 @@ window.addEventListener("hashchange", () => {
 });
 
 // 회원가입 정보를 가져오는 함수입니다.
-function getSignupInfo() {
-  const idInput = document.getElementById("id");
-  const pwInput = document.getElementById("pw");
+function getSignupInfo(event) {
+  const idInput = event.target.querySelector("input[name='id']");
+  const pwInput = event.target.querySelector("input[name='pw']");
 
   if (idInput && pwInput) {
     const id = idInput.value;
@@ -55,21 +43,41 @@ function getSignupInfo() {
     return {id: "", pw: ""};
   }
 }
-console.log(getSignupInfo());
-// `join()` 함수입니다.
-function join(event) {
-  // `event` 이벤트 객체를 사용합니다.
+
+async function join(event) {
   event.preventDefault();
 
+  // Firebase 초기화
+  firebase.initializeApp({
+    apiKey: "AIzaSyBxyxuRlvxV3KsA4KErPwlZCPhbsHDN-IU",
+    authDomain: "ramen-log.firebaseapp.com",
+    projectId: "ramen-log",
+    storageBucket: "ramen-log.appspot.com",
+    messagingSenderId: "292296321273",
+    appId: "1:292296321273:web:bacc165856b927edff5a28",
+    measurementId: "G-LZHR47DK5H",
+  });
+
   // 회원가입 정보를 가져옵니다.
-  const signupInfo = getSignupInfo();
+  const signupInfo = getSignupInfo(event);
 
-  // `users` 컬렉션 내에 새로운 문서를 생성합니다.
-  const userDocRef = firebase.firestore().collection("users").doc("data");
+  try {
+    const userDocRef = firebase.firestore().collection("users").doc("data");
+    await userDocRef.set({
+      id: signupInfo.id,
+      pw: signupInfo.pw,
+    });
 
-  // 새로운 문서에 회원가입 정보를 추가합니다.
-  userDocRef.set({
-    id: signupInfo.id,
-    pw: signupInfo.pw,
+    console.log(signupInfo);
+  } catch (error) {
+    console.error("Error adding document: ", error);
+  }
+}
+const signupForm = document.getElementById("signup-form");
+if (signupForm) {
+  signupForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    console.log("submit event triggered"); // 추가된 부분
+    join(event);
   });
 }
