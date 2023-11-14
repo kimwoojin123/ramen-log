@@ -11,12 +11,6 @@ if (!firebase.apps.length) {
   });
 }
 
-// `users` 컬렉션이 존재하는지 확인합니다.
-if (!firebase.firestore().collection("users").doc().exists()) {
-  // `users` 컬렉션을 만듭니다.
-  firebase.firestore().collection("users").create();
-}
-
 // 회원가입 정보를 가져오는 함수입니다.
 function getSignupInfo() {
   // `id`와 `pw` 필드의 값을 가져옵니다.
@@ -52,12 +46,9 @@ function join(event) {
   // 회원가입 정보를 가져옵니다.
   const signupInfo = getSignupInfo();
 
-  // `users` 컬렉션이 존재하는지 확인합니다.
-  if (!firebase.firestore().collection("users").doc().exists()) {
-    // `users` 컬렉션을 만듭니다.
-    firebase.firestore().collection("users").create();
-  }
-
   // 회원가입 정보를 DB에 추가합니다.
-  addSignupInfo(signupInfo);
+  firebase.firestore().collection("users").add({
+    id: signupInfo.id,
+    pw: signupInfo.pw,
+  });
 }
