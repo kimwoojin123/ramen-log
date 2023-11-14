@@ -81,3 +81,17 @@ if (signupForm) {
     join(event);
   });
 }
+
+
+const queryString = window.location.search;
+
+// URLSearchParams를 사용하여 쿼리스트링을 분석합니다.
+const params = new URLSearchParams(queryString);
+
+// 특정 매개변수를 가져옵니다.
+const id = params.get('id');
+const pw = params.get('pw');
+
+// 값을 콘솔에 출력합니다.
+console.log('ID:', id);
+console.log('Password:', pw);
