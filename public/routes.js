@@ -1,14 +1,3 @@
-const pages = {
-  quickSearch: "빠른 검색 페이지 내용",
-  advancedSearch: "고급 검색 페이지 내용",
-  favorites: "즐겨찾기 페이지 내용",
-  signup: `<form id="signup-form" action="#" method="post">
-    <input type="text" name="id" placeholder="아이디">
-    <input type="password" name="pw" placeholder="비밀번호">
-    <input type="submit" value="가입">
-  </form>`,
-};
-
 // Firebase 프로젝트에 대한 인증 정보를 설정합니다.
 if (!firebase.apps.length) {
   firebase.initializeApp({
@@ -21,6 +10,17 @@ if (!firebase.apps.length) {
     measurementId: "G-LZHR47DK5H",
   });
 }
+
+const pages = {
+  quickSearch: "빠른 검색 페이지 내용",
+  advancedSearch: "고급 검색 페이지 내용",
+  favorites: "즐겨찾기 페이지 내용",
+  signup: `<form id="signup-form" action="#" method="post">
+    <input type="text" name="id" placeholder="아이디">
+    <input type="password" name="pw" placeholder="비밀번호">
+    <input type="submit" value="가입">
+  </form>`,
+};
 
 // 회원가입 정보를 가져오는 함수입니다.
 function getSignupInfo() {
