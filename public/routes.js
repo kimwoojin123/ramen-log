@@ -1,3 +1,21 @@
+import {initializeApp} from "firebase/compat/app";
+import {getFirestore} from "firebase-admin/firestore";
+
+const db = getFirestore();
+
+const firebaseConfig = {
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+  appId: process.env.appId,
+  measurementId: process.env.measurementId,
+};
+
+// DOMContentLoaded 이벤트에 initializeApp 함수를 호출하는 부분을 이동
+document.addEventListener("DOMContentLoaded", initializeApp(firebaseConfig));
+
 const pages = {
   quickSearch: "빠른 검색 페이지 내용",
   advancedSearch: "고급 검색 페이지 내용",
