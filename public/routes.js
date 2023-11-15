@@ -29,23 +29,23 @@ async function join(event) {
   const queryString = window.location.search;
   const params = new URLSearchParams(queryString);
 
-  const id = params.get('id');
-  const pw = params.get('pw');
+  const id = params.get("id");
+  const pw = params.get("pw");
 
-  console.log('ID:', id);
-  console.log('Password:', pw);
+  console.log("ID:", id);
+  console.log("Password:", pw);
 
   if (id && pw) {
     try {
       // Firebase 초기화
       firebase.initializeApp({
-        apiKey: "AIzaSyBxyxuRlvxV3KsA4KErPwlZCPhbsHDN-IU",
-        authDomain: "ramen-log.firebaseapp.com",
-        projectId: "ramen-log",
-        storageBucket: "ramen-log.appspot.com",
-        messagingSenderId: "292296321273",
-        appId: "1:292296321273:web:bacc165856b927edff5a28",
-        measurementId: "G-LZHR47DK5H",
+        apiKey: process.env.apiKey,
+        authDomain: process.env.authDomain,
+        projectId: process.env.projectId,
+        storageBucket: process.env.storageBucket,
+        messagingSenderId: process.env.messagingSenderId,
+        appId: process.env.appId,
+        measurementId: process.env.measurementId,
       });
 
       const userDocRef = firebase.firestore().collection("users").doc("data");
@@ -54,12 +54,12 @@ async function join(event) {
         pw: pw,
       });
 
-      console.log('회원가입 정보가 Firestore에 추가되었습니다.');
+      console.log("회원가입 정보가 Firestore에 추가되었습니다.");
     } catch (error) {
-      console.error('회원가입 정보를 추가하는 도중 에러가 발생했습니다:', error);
+      console.error("회원가입 정보를 추가하는 도중 에러가 발생했습니다:", error);
     }
   } else {
-    console.error('ID 또는 Password가 없습니다.');
+    console.error("ID 또는 Password가 없습니다.");
   }
 }
 
