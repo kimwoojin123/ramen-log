@@ -16,7 +16,14 @@ function renderPage(pageName) {
   root2.style.display = "none";
   // 내용을 표시
   root3.innerHTML = pages[pageName];
+  if (pageName === 'signup') {
+    const signupForm = document.getElementById('signup-form');
+    if (signupForm) {
+      signupForm.addEventListener('submit', join); // submit 이벤트 핸들러로 join 함수 연결
+    }
+  }
 }
+
 
 window.addEventListener("hashchange", () => {
   const hash = window.location.hash;
@@ -28,14 +35,9 @@ window.addEventListener("hashchange", () => {
 async function join(event) {
   event.preventDefault();
 
-  const queryString = window.location.search;
-  const params = new URLSearchParams(queryString);
+  const id = document.getElementById('id').value; // 아이디 입력값 가져오기
+  const pw = document.getElementById('pw').value; // 비밀번호 입력값 가져오기
 
-  const id = params.get('id');
-  const pw = params.get('pw');
-
-  console.log('ID:', id);
-  console.log('Password:', pw);
 
   if (id && pw) {
     try {
