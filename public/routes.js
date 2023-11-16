@@ -8,12 +8,13 @@ const pages = {
     <input type="submit" value="가입">
     </form>`,
 };
-
 function renderPage(pageName) {
   const root2 = document.getElementById("root2");
   const root3 = document.getElementById("root3");
 
+  // 맵을 숨김
   root2.style.display = "none";
+  // 내용을 표시
   root3.innerHTML = pages[pageName];
 }
 
@@ -22,6 +23,7 @@ window.addEventListener("hashchange", () => {
   const pageName = hash.substring(1);
   renderPage(pageName);
 });
+
 
 async function join(event) {
   event.preventDefault();
@@ -38,7 +40,7 @@ async function join(event) {
   if (id && pw) {
     try {
       // Firebase 초기화
-      firebase.initializeApp({
+      const firebaseConfig = {
         apiKey: "AIzaSyBxyxuRlvxV3KsA4KErPwlZCPhbsHDN-IU",
         authDomain: "ramen-log.firebaseapp.com",
         projectId: "ramen-log",
@@ -46,7 +48,10 @@ async function join(event) {
         messagingSenderId: "292296321273",
         appId: "1:292296321273:web:bacc165856b927edff5a28",
         measurementId: "G-LZHR47DK5H",
-      });
+      };
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
 
       const userDocRef = firebase.firestore().collection("users").doc("data");
       await userDocRef.set({
@@ -61,13 +66,4 @@ async function join(event) {
   } else {
     console.error('ID 또는 Password가 없습니다.');
   }
-}
-
-const signupForm = document.getElementById("signup-form");
-if (signupForm) {
-  signupForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    console.log("submit event triggered");
-    join(event);
-  });
 }
