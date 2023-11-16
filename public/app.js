@@ -1,7 +1,5 @@
-import {initializeApp} from "firebase/app";
-import {getFirestore} from "firebase/firestore";
-
-const db = getFirestore();
+import firebase from "firebase/compat/app"; // compat 사용
+import "firebase/compat/firestore"; // compat 사용
 
 const firebaseConfig = {
   apiKey: "AIzaSyBxyxuRlvxV3KsA4KErPwlZCPhbsHDN-IU",
@@ -13,7 +11,9 @@ const firebaseConfig = {
   appId: "1:292296321273:web:bacc165856b927edff5a28",
   measurementId: "G-LZHR47DK5H",
 };
-const app = initializeApp(firebaseConfig);
+
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore(app);
 
 const name = document.getElementById("name");
 name.addEventListener("click", () => {
