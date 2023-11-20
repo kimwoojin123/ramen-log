@@ -102,7 +102,13 @@
 
     hamburgerButton.addEventListener('click', function() {
       menu.classList.toggle('open');
-    });
+      const menuLinks = document.querySelectorAll('.menu ul li a');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          menu.classList.remove('open');
+          });
+          });
+        });
     </script>
     
   </body>
