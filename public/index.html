@@ -37,6 +37,7 @@
           <li><a href="#advancedSearch">고급검색</a></li>
           <li><a href="#favorites">즐겨찾기</a></li>
           <li><a href="#signup">회원가입</a></li>
+          <li><a href="#login">로그인</a></li>
         </ul>
       </nav>
     </div>
@@ -104,11 +105,14 @@
       menu.classList.toggle('open');
       const menuLinks = document.querySelectorAll('.menu ul li a');
       menuLinks.forEach(link => {
-        link.addEventListener('click', function() {
-          menu.classList.remove('open');
-          });
-          });
-        });
+      link.addEventListener('click', function(event) {
+        event.preventDefault(); // 기본 동작 방지
+        const hash = this.getAttribute('href'); // 클릭된 요소의 href 속성 값 가져오기
+        window.location.hash = hash; // 해시 변경
+        menu.classList.remove('open'); // 메뉴 닫기
+      });
+    });
+    });
     </script>
     
   </body>
