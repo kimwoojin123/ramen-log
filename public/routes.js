@@ -16,14 +16,13 @@ function renderPage(pageName) {
   root2.style.display = "none";
   // 내용을 표시
   root3.innerHTML = pages[pageName];
-  if (pageName === 'signup') {
-    const signupForm = document.getElementById('signup-form');
+  if (pageName === "signup") {
+    const signupForm = document.getElementById("signup-form");
     if (signupForm) {
-      signupForm.addEventListener('submit', join); // submit 이벤트 핸들러로 join 함수 연결
+      signupForm.addEventListener("submit", join); // submit 이벤트 핸들러로 join 함수 연결
     }
   }
 }
-
 
 window.addEventListener("hashchange", () => {
   const hash = window.location.hash;
@@ -31,13 +30,11 @@ window.addEventListener("hashchange", () => {
   renderPage(pageName);
 });
 
-
 async function join(event) {
   event.preventDefault();
 
-  const id = document.getElementById('id').value; // 아이디 입력값 가져오기
-  const pw = document.getElementById('pw').value; // 비밀번호 입력값 가져오기
-
+  const id = document.getElementById("id").value; // 아이디 입력값 가져오기
+  const pw = document.getElementById("pw").value; // 비밀번호 입력값 가져오기
 
   if (id && pw) {
     try {
@@ -55,17 +52,19 @@ async function join(event) {
         firebase.initializeApp(firebaseConfig);
       }
 
-      const userDocRef = firebase.firestore().collection("users").doc("data");
-      await userDocRef.set({
+      const userCollectionRef = firebase.firestore().collection("users");
+      const newUserDocRef = await userCollectionRef.add({}); // 랜덤 ID를 갖는 새로운 문서 생성
+
+      await newUserDocRef.set({
         id: id,
         pw: pw,
       });
 
-      console.log('회원가입 정보가 Firestore에 추가되었습니다.');
+      console.log("회원가입 정보가 Firestore에 추가되었습니다.");
     } catch (error) {
-      console.error('회원가입 정보를 추가하는 도중 에러가 발생했습니다:', error);
+      console.error("회원가입 정보를 추가하는 도중 에러가 발생했습니다:", error);
     }
   } else {
-    console.error('ID 또는 Password가 없습니다.');
+    console.error("ID 또는 Password가 없습니다.");
   }
 }
