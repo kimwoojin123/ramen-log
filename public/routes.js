@@ -61,6 +61,9 @@ async function join(event) {
       });
 
       console.log("회원가입 정보가 Firestore에 추가되었습니다.");
+      alert("회원가입이 완료되었습니다.");
+      // 확인을 누르면 메인 페이지로 이동
+      window.location.href = "/";
     } catch (error) {
       console.error("회원가입 정보를 추가하는 도중 에러가 발생했습니다:", error);
     }
