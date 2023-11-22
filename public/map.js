@@ -18,9 +18,9 @@ if (!firebase.apps.length) {
 // Firestore의 reference를 가져오기
 const db = firebase.firestore();
 function addLocationToFirestore(locationObj) {
-  db.collection("store") // store 컬렉션에 문서 추가
+  db.collection("store")
     .doc(locationObj.location) // 가게명으로 문서 생성
-    .set(locationObj) // locationObj를 해당 문서에 저장
+    .set({}) // 빈 객체를 해당 문서에 저장
     .then(() => {
       console.log("Document written with ID: ", locationObj.location);
     })
