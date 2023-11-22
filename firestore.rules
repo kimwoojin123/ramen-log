@@ -5,5 +5,9 @@ service cloud.firestore {
     match /users/{document=**} {
       allow read, write;
     }
+
+    match /store/{document=**} {
+      allow read, write;
+    }
   }
 }

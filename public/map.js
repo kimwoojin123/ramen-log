@@ -1,5 +1,44 @@
 import areaContent from "./reviewPage.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyBxyxuRlvxV3KsA4KErPwlZCPhbsHDN-IU",
+  authDomain: "ramen-log.firebaseapp.com",
+  projectId: "ramen-log",
+  storageBucket: "ramen-log.appspot.com",
+  messagingSenderId: "292296321273",
+  appId: "1:292296321273:web:bacc165856b927edff5a28",
+  measurementId: "G-LZHR47DK5H",
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app(); // 이미 초기화된 앱을 가져옴
+}
+
+// Firestore의 reference를 가져오기
+const db = firebase.firestore();
+function addLocationToFirestore(locationObj) {
+  db.collection("store") // store 컬렉션에 문서 추가
+    .doc(locationObj.location) // 가게명으로 문서 생성
+    .set(locationObj) // locationObj를 해당 문서에 저장
+    .then(() => {
+      console.log("Document written with ID: ", locationObj.location);
+    })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+}
+
+let areaArr = [
+  {location: "멘야이토", lat: 36.35026761782584, lng: 127.37714510689068},
+  {location: "멘야산다이메", lat: 36.352281017969304, lng: 127.3773707115313},
+];
+
+// 각 위치 정보를 Firestore에 추가
+areaArr.forEach((location) => {
+  addLocationToFirestore(location);
+});
+
 var mapOptions = {
   center: new naver.maps.LatLng(36.350411, 127.384547),
   zoom: 12,
@@ -8,11 +47,6 @@ var mapOptions = {
 var map = new naver.maps.Map("map", mapOptions);
 
 function initMap() {
-  let areaArr = [
-    {location: "멘야이토", lat: 36.35026761782584, lng: 127.37714510689068},
-    {location: "멘야산다이메", lat: 36.352281017969304, lng: 127.3773707115313},
-  ];
-
   let markers = [];
   let infoWindows = [];
 
@@ -28,6 +62,7 @@ function initMap() {
     markers.push(marker);
     infoWindows.push(infoWindow);
   }
+
   naver.maps.Event.addListener(map, "click", function () {
     closeAllInfoWindows();
   });
@@ -37,6 +72,7 @@ function initMap() {
       infoWindows[i].close();
     }
   }
+
   function clickHandler(seq) {
     return function (e) {
       let marker = markers[seq];
@@ -53,4 +89,5 @@ function initMap() {
     naver.maps.Event.addListener(markers[i], "click", clickHandler(i));
   }
 }
+
 initMap();

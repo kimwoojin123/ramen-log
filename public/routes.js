@@ -9,11 +9,10 @@ const pages = {
     </form>`,
   login: `<form id="login-form" action="/">
     <input type="text" name="email" id="email" placeholder="이메일"><br>
-    <input type="password" name="pw" id="pw" placeholder="비밀번호"><br>
+    <input type="password" name="pw" id="pw" placeholder="비밀번호"><br><br>
     <input type="submit" value="로그인">
   </form>`,
 };
-
 
 function renderPage(pageName) {
   const root2 = document.getElementById("root2");
@@ -28,7 +27,7 @@ function renderPage(pageName) {
     if (signupForm) {
       signupForm.addEventListener("submit", join); // submit 이벤트 핸들러로 join 함수 연결
     }
-  }else if (pageName === "login") {
+  } else if (pageName === "login") {
     const loginForm = document.getElementById("login-form");
     if (loginForm) {
       loginForm.addEventListener("submit", loginUser);
@@ -80,8 +79,6 @@ async function join(event) {
     console.error("ID 또는 Password가 없습니다.");
   }
 }
-
-
 
 async function loginUser(event) {
   event.preventDefault();
