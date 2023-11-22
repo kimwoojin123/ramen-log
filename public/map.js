@@ -88,6 +88,52 @@ function initMap() {
   for (let i = 0; i < markers.length; i++) {
     naver.maps.Event.addListener(markers[i], "click", clickHandler(i));
   }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const submitButton = document.getElementById("submitButton");
+    if (submitButton) {
+      submitButton.addEventListener("click", () => {
+        const locationElement = document.getElementById("locationTitle");
+        const location = locationElement.innerText.trim(); // <b> 태그 내부의 텍스트를 가져와서 위치 정보로 사용합니다.
+
+        submitReview(location);
+      });
+    } else {
+      console.error("#submitButton을 찾을 수 없습니다.");
+    }
+  });
 }
 
 initMap();
+
+function addReviewToFirestore(location, reviewData) {
+  db.collection("store")
+    .doc(location) // 가게명으로 문서 참조
+    .update(reviewData) // 리뷰 데이터를 해당 문서에 추가
+    .then(() => {
+      console.log("Review added to Firestore for: ", location);
+    })
+    .catch((error) => {
+      console.error("Error adding review to document: ", error);
+    });
+}
+
+const submitReview = (location) => {
+  const select1 = document.querySelector("#select1");
+  const select2 = document.querySelector("#select2");
+  const select3 = document.querySelector("#select3");
+  const congauge = document.querySelector("#congauge");
+  const saltgauge = document.querySelector("#saltgauge");
+  const textArea = document.querySelector("#textArea");
+
+  const reviewData = {
+    면굵기: select1.value,
+    익힘정도: select2.value,
+    스프베이스: select3.value,
+    농도: congauge.value,
+    염도: saltgauge.value,
+    평가: textArea.value,
+  };
+
+  addReviewToFirestore(location, reviewData);
+};
