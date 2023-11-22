@@ -1,3 +1,5 @@
+import areaContent from "./reviewPage.js";
+
 var mapOptions = {
   center: new naver.maps.LatLng(36.350411, 127.384547),
   zoom: 12,
@@ -21,12 +23,20 @@ function initMap() {
       title: areaArr[i].location,
     });
     var infoWindow = new naver.maps.InfoWindow({
-      content: `<div style="width:200px;text-align:center;padding:10px;"><b>` + areaArr[i].location + `</b>`,
+      content: areaContent(areaArr[i].location),
     });
     markers.push(marker);
     infoWindows.push(infoWindow);
   }
+  naver.maps.Event.addListener(map, "click", function () {
+    closeAllInfoWindows();
+  });
 
+  function closeAllInfoWindows() {
+    for (let i = 0; i < infoWindows.length; i++) {
+      infoWindows[i].close();
+    }
+  }
   function clickHandler(seq) {
     return function (e) {
       let marker = markers[seq];
