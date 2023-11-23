@@ -50,17 +50,13 @@ function initMap() {
   let markers = [];
   let infoWindows = [];
 
-  for (let i = 0; i < areaArr.length; i++) {
-    var marker = new naver.maps.Marker({
-      map: map,
-      position: new naver.maps.LatLng(areaArr[i].lat, areaArr[i].lng),
-      title: areaArr[i].location,
+  function attachEventListeners(submitButton) {
+    submitButton.addEventListener("click", () => {
+      const locationElement = document.getElementById("locationTitle");
+      const location = locationElement.innerText.trim();
+
+      submitReview(location);
     });
-    var infoWindow = new naver.maps.InfoWindow({
-      content: areaContent(areaArr[i].location),
-    });
-    markers.push(marker);
-    infoWindows.push(infoWindow);
   }
 
   naver.maps.Event.addListener(map, "click", function () {
@@ -80,60 +76,47 @@ function initMap() {
       if (infoWindow.getMap()) {
         infoWindow.close();
       } else {
+        infoWindow.setContent(areaContent(areaArr[seq].location));
         infoWindow.open(map, marker);
+        const submitButton = document.getElementById("submitButton");
+        if (submitButton) {
+          attachEventListeners(submitButton);
+        } else {
+          console.error("#submitButton을 찾을 수 없습니다.");
+        }
       }
     };
   }
-
-  for (let i = 0; i < markers.length; i++) {
-    naver.maps.Event.addListener(markers[i], "click", clickHandler(i));
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const submitButton = document.getElementById("submitButton");
-    if (submitButton) {
-      submitButton.addEventListener("click", () => {
-        const locationElement = document.getElementById("locationTitle");
-        const location = locationElement.innerText.trim(); // <b> 태그 내부의 텍스트를 가져와서 위치 정보로 사용합니다.
-
-        submitReview(location);
+  function addReviewToFirestore(location, reviewData) {
+    db.collection("store")
+      .doc(location)
+      .update(reviewData)
+      .then(() => {
+        console.log("Review added to Firestore for: ", location);
+      })
+      .catch((error) => {
+        console.error("Error adding review to document: ", error);
       });
-    } else {
-      console.error("#submitButton을 찾을 수 없습니다.");
+  }
+  const submitReview = (location) => {
+    const select1 = document.querySelector("#select1");
+    const select2 = document.querySelector("#select2");
+    const select3 = document.querySelector("#select3");
+    const congauge = document.querySelector("#congauge");
+    const saltgauge = document.querySelector("#saltgauge");
+    const textArea = document.querySelector("#textArea");
+
+    const reviewData = {
+      면굵기: select1.value,
+      익힘정도: select2.value,
+      스프베이스: select3.value,
+      농도: congauge.value,
+      염도: saltgauge.value,
+      평가: textArea.value,
+    };
+    for (let i = 0; i < markers.length; i++) {
+      naver.maps.Event.addListener(markers[i], "click", clickHandler(i));
     }
-  });
-}
-
-initMap();
-
-function addReviewToFirestore(location, reviewData) {
-  db.collection("store")
-    .doc(location) // 가게명으로 문서 참조
-    .update(reviewData) // 리뷰 데이터를 해당 문서에 추가
-    .then(() => {
-      console.log("Review added to Firestore for: ", location);
-    })
-    .catch((error) => {
-      console.error("Error adding review to document: ", error);
-    });
-}
-
-const submitReview = (location) => {
-  const select1 = document.querySelector("#select1");
-  const select2 = document.querySelector("#select2");
-  const select3 = document.querySelector("#select3");
-  const congauge = document.querySelector("#congauge");
-  const saltgauge = document.querySelector("#saltgauge");
-  const textArea = document.querySelector("#textArea");
-
-  const reviewData = {
-    면굵기: select1.value,
-    익힘정도: select2.value,
-    스프베이스: select3.value,
-    농도: congauge.value,
-    염도: saltgauge.value,
-    평가: textArea.value,
   };
-
-  addReviewToFirestore(location, reviewData);
-};
+}
+initMap();
