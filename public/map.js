@@ -89,25 +89,31 @@ areaArr.forEach((location, index) => {
       const submitButton = infoWindow.getContentElement().querySelector("#submitButton");
       if (submitButton) {
         submitButton.addEventListener("click", () => {
-          const selectedLocation = location.location;
+          const currentUser = firebase.auth().currentUser;
+          if (currentUser) {
+            const selectedLocation = location.location;
 
-          const select1 = document.querySelector("#select1");
-          const select2 = document.querySelector("#select2");
-          const select3 = document.querySelector("#select3");
-          const congauge = document.querySelector("#congauge");
-          const saltgauge = document.querySelector("#saltgauge");
-          const textArea = document.querySelector("#textArea");
+            const select1 = document.querySelector("#select1");
+            const select2 = document.querySelector("#select2");
+            const select3 = document.querySelector("#select3");
+            const congauge = document.querySelector("#congauge");
+            const saltgauge = document.querySelector("#saltgauge");
+            const textArea = document.querySelector("#textArea");
 
-          const reviewData = {
-            면굵기: select1.value,
-            익힘정도: select2.value,
-            스프베이스: select3.value,
-            농도: congauge.value,
-            염도: saltgauge.value,
-            평가: textArea.value,
-          };
-          const reviewerId = firebase.auth().currentUser.uid;
-          addReviewToFirestore(selectedLocation, reviewData, reviewerId);
+            const reviewData = {
+              면굵기: select1.value,
+              익힘정도: select2.value,
+              스프베이스: select3.value,
+              농도: congauge.value,
+              염도: saltgauge.value,
+              평가: textArea.value,
+            };
+            const reviewerId = firebase.auth().currentUser.uid;
+            addReviewToFirestore(selectedLocation, reviewData, reviewerId);
+            alert("리뷰가 작성되었습니다.");
+          } else {
+            alert("로그인 해주세요.");
+          }
         });
       } else {
         console.error("submitButton 없음");
