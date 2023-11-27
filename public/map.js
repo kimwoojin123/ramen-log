@@ -80,8 +80,7 @@ function clickHandler(seq) {
       const submitButton = infoWindow.getContentElement().querySelector("#submitButton");
       if (submitButton) {
         submitButton.addEventListener("click", () => {
-          const locationElement = document.getElementById("locationTitle");
-          const location = locationElement.innerText.trim();
+          const selectedLocation = areaArr[seq].location;
 
           const select1 = document.querySelector("#select1");
           const select2 = document.querySelector("#select2");
@@ -99,7 +98,7 @@ function clickHandler(seq) {
             평가: textArea.value,
           };
 
-          addReviewToFirestore(location, reviewData);
+          addReviewToFirestore(selectedLocation, reviewData);
         });
       } else {
         console.error("submitButton 없음");
@@ -125,9 +124,9 @@ areaArr.forEach((location, index) => {
 });
 
 function addReviewToFirestore(location, reviewData) {
-  db.collection("store")
-    .doc(location) // 가게명으로 문서 참조
-    .set(reviewData) // 리뷰 데이터를 해당 문서에 추가
+  const docRef = db.collection("store").doc(location);
+  docRef
+    .set({reviewData}, {merge: true}) // 새로운 문서를 생성하고 리뷰 데이터를 추가 또는 업데이트
     .then(() => {
       console.log("Review added to Firestore for: ", location);
     })
