@@ -9,6 +9,7 @@ const firebaseConfig = {
   appId: "1:292296321273:web:bacc165856b927edff5a28",
   measurementId: "G-LZHR47DK5H",
 };
+
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 } else {
@@ -55,32 +56,40 @@ var mapOptions = {
 
 var map = new naver.maps.Map("map", mapOptions);
 let markers = [];
-let infoWindows = [];
+let areaInfoWindows = [];
 
 naver.maps.Event.addListener(map, "click", function () {
   closeAllInfoWindows();
 });
 
 function closeAllInfoWindows() {
-  for (let i = 0; i < infoWindows.length; i++) {
-    infoWindows[i].close();
-  }
+  areaInfoWindows.forEach((infoWindow) => {
+    infoWindow.close();
+  });
 }
 
-function clickHandler(seq) {
-  return function (e) {
-    let marker = markers[seq];
-    let infoWindow = infoWindows[seq];
+areaArr.forEach((location, index) => {
+  var marker = new naver.maps.Marker({
+    map: map,
+    position: new naver.maps.LatLng(location.lat, location.lng),
+    title: location.location,
+  });
+
+  var infoWindow = new naver.maps.InfoWindow();
+  areaInfoWindows.push(infoWindow);
+
+  marker.addListener("click", function () {
+    const infoWindow = areaInfoWindows[index];
     if (infoWindow.getMap()) {
       infoWindow.close();
     } else {
-      const content = areaContent(areaArr[seq].location);
-      infoWindow.setContent(areaContent(content));
+      const content = areaContent(location.location);
+      infoWindow.setContent(content);
       infoWindow.open(map, marker);
       const submitButton = infoWindow.getContentElement().querySelector("#submitButton");
       if (submitButton) {
         submitButton.addEventListener("click", () => {
-          const selectedLocation = areaArr[seq].location;
+          const selectedLocation = location.location;
 
           const select1 = document.querySelector("#select1");
           const select2 = document.querySelector("#select2");
@@ -104,23 +113,9 @@ function clickHandler(seq) {
         console.error("submitButton 없음");
       }
     }
-  };
-}
-
-areaArr.forEach((location, index) => {
-  var marker = new naver.maps.Marker({
-    map: map,
-    position: new naver.maps.LatLng(location.lat, location.lng),
-    title: location.location,
   });
 
-  var infoWindow = new naver.maps.InfoWindow({
-    content: areaContent(location.location),
-  });
-
-  marker.addListener("click", clickHandler(index));
   markers.push(marker);
-  infoWindows.push(infoWindow);
 });
 
 function addReviewToFirestore(location, reviewData, reviewerId) {
