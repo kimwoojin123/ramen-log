@@ -97,8 +97,8 @@ function clickHandler(seq) {
             염도: saltgauge.value,
             평가: textArea.value,
           };
-
-          addReviewToFirestore(selectedLocation, reviewData);
+          const reviewerId = firebase.auth().currentUser.uid;
+          addReviewToFirestore(selectedLocation, reviewData, reviewerId);
         });
       } else {
         console.error("submitButton 없음");
@@ -123,10 +123,10 @@ areaArr.forEach((location, index) => {
   infoWindows.push(infoWindow);
 });
 
-function addReviewToFirestore(location, reviewData) {
+function addReviewToFirestore(location, reviewData, reviewerId) {
   const docRef = db.collection("store").doc(location);
   docRef
-    .set({reviewData}, {merge: true}) // 새로운 문서를 생성하고 리뷰 데이터를 추가 또는 업데이트
+    .set({[reviewerId]: reviewData}, {merge: true}) // 새로운 문서를 생성하고 리뷰 데이터를 추가 또는 업데이트
     .then(() => {
       console.log("Review added to Firestore for: ", location);
     })
