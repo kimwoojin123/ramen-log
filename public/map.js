@@ -78,13 +78,25 @@ areaArr.forEach((location, index) => {
   var infoWindow = new naver.maps.InfoWindow();
   areaInfoWindows.push(infoWindow);
 
-  marker.addListener("click", function () {
+  marker.addListener("click", async function () {
     const infoWindow = areaInfoWindows[index];
     if (infoWindow.getMap()) {
       infoWindow.close();
     } else {
       const content = areaContent(location.location);
       infoWindow.setContent(content);
+
+      const reviewData = await getReviewsForStore(location.location);
+      if (reviewData) {
+        const reviewsElement = document.createElement("div");
+        reviewsElement.innerHTML = "<h3>리뷰 목록</h3>";
+        for (const uid in reviewData) {
+          const review = reviewData[uid];
+          reviewsElement.innerHTML += `<p>${uid}의 리뷰: ${review.평가}</p>`;
+        }
+        infoWindow.setContent(content + reviewsElement.outerHTML);
+      }
+
       infoWindow.open(map, marker);
       const submitButton = infoWindow.getContentElement().querySelector("#submitButton");
       if (submitButton) {
@@ -134,4 +146,16 @@ function addReviewToFirestore(location, reviewData, reviewerId) {
     .catch((error) => {
       console.error("Error adding review to document: ", error);
     });
+}
+
+async function getReviewsForStore(storeName) {
+  const docRef = db.collection("store").doc(storeName);
+  const doc = await docRef.get();
+
+  if (doc.exists) {
+    return doc.data(); // 해당 가게의 리뷰 데이터 반환
+  } else {
+    console.log("No such document!");
+    return null;
+  }
 }
