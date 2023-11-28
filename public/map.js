@@ -84,7 +84,9 @@ areaArr.forEach((location, index) => {
       infoWindow.close();
     } else {
       const content = areaContent(location.location);
-      infoWindow.setContent(content);
+      const reviewContainer = document.createElement("div");
+      reviewContainer.style.marginTop = "10px";
+      reviewContainer.style.borderTop = "1px solid #ccc";
 
       getReviewsForStore(location.location)
         .then(async (reviewData) => {
@@ -94,9 +96,12 @@ areaArr.forEach((location, index) => {
             for (const email in reviewData) {
               const review = reviewData[email];
               const username = email.split("@")[0];
-              reviewsElement.innerHTML += `<p>${username} : 면굵기 : ${review.면굵기} </p>`;
+              reviewsElement.innerHTML += `<p>${username} : 평가 ${review.평가}</p>`;
             }
-            infoWindow.setContent(content + reviewsElement.outerHTML);
+
+            reviewContainer.appendChild(reviewsElement);
+
+            infoWindow.setContent(content + reviewContainer.outerHTML);
           }
 
           infoWindow.open(map, marker);
