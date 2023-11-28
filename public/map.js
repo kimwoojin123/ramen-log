@@ -93,7 +93,8 @@ areaArr.forEach((location, index) => {
             reviewsElement.innerHTML = "<h3>리뷰 목록</h3>";
             for (const email in reviewData) {
               const review = reviewData[email];
-              reviewsElement.innerHTML += `<p>${email} : 면굵기 : ${review.면굵기} </p>`;
+              const username = email.split("@")[0];
+              reviewsElement.innerHTML += `<p>${username} : 면굵기 : ${review.면굵기} </p>`;
             }
             infoWindow.setContent(content + reviewsElement.outerHTML);
           }
