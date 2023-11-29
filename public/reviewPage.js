@@ -1,16 +1,26 @@
 const areaContent = (location, reviewData) => {
   let reviewsElement = "<h3>리뷰 목록</h3>";
   if (reviewData) {
+    reviewsElement += "<ul>"; // 목록을 나타내기 위해 ul 태그 추가
     for (const email in reviewData) {
       const review = reviewData[email];
       const username = email.split("@")[0];
-      reviewsElement += `<p>${username} : 평가 ${review.평가}</p>`;
+      reviewsElement += `<li><b>${username}</b>: `;
+      const orderedKeys = ["면굵기", "익힘정도", "스프베이스", "농도", "염도", "평가"]; // 원하는 순서로 키 배열 정의
+      orderedKeys.forEach((key) => {
+        if (review[key] !== undefined) {
+          reviewsElement += `${key}: ${review[key]}, `;
+        }
+      });
+      reviewsElement = reviewsElement.slice(0, -2); // 마지막 쉼표 제거
+      reviewsElement += `</li>`;
     }
+    reviewsElement += "</ul>"; // ul 태그 닫기
   }
 
   return `<div style="width:300px; height:600px;padding:10px;">
     <div style="text-align:center;"><b id="locationTitle">${location}</b></div>
-    <p>리뷰하기</p>
+    <h3>리뷰하기</h3>
     <p style="display:flex;">면 굵기\u00A0\u00A0\u00A0<select id="select1">
       <option value="얇음">얇음</option>
       <option value="중간">중간</option>
