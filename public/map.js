@@ -125,6 +125,35 @@ areaArr.forEach((location, index) => {
               console.error("submitButton 없음");
             }
           }
+          const starButton = document.getElementById(`starButton_${location.location}`);
+          if (starButton) {
+            starButton.addEventListener("click", () => {
+              const currentUser = firebase.auth().currentUser;
+              if (currentUser) {
+                const userEmail = currentUser.email;
+                const userRef = db.collection("users").doc(userEmail);
+                const isFavorite = starButton.classList.contains("favorite");
+
+                if (isFavorite) {
+                  // 이미 즐겨찾기된 상태이므로 제거
+                  starButton.classList.remove("favorite");
+                  userRef.update({
+                    [location.location]: firebase.firestore.FieldValue.delete(),
+                  });
+                } else {
+                  // 즐겨찾기 추가
+                  starButton.classList.add("favorite");
+                  userRef.set({
+                    [location.location]: true,
+                  });
+                }
+              } else {
+                // 로그인되어 있지 않은 경우 처리
+                alert("로그인 해주세요.");
+              }
+              starButton.classList.toggle("favorite");
+            });
+          }
         })
         .catch((error) => {
           console.error("Error getting reviews:", error);

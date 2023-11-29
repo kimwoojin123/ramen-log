@@ -1,4 +1,17 @@
-const areaContent = (location, reviewData) => {
+const createStarButton = (isFavorite, location) => {
+  const starButton = document.createElement("button");
+  starButton.innerHTML = isFavorite ? "★" : "☆";
+  starButton.classList.add("star-btn");
+  starButton.style.backgroundColor = "transparent";
+  starButton.style.border = "none";
+  starButton.style.cursor = "pointer";
+  starButton.style.fontSize = "20px";
+  starButton.id = `starButton_${location}`; // ID 추가
+
+  return starButton;
+};
+
+const areaContent = (location, reviewData, isFavorite) => {
   let reviewsElement = "<h3>리뷰 목록</h3>";
   if (reviewData) {
     reviewsElement += "<ul>"; // 목록을 나타내기 위해 ul 태그 추가
@@ -18,8 +31,10 @@ const areaContent = (location, reviewData) => {
     reviewsElement += "</ul>"; // ul 태그 닫기
   }
 
+  const starButton = createStarButton(isFavorite, location.location); // 별 버튼 생성
+
   return `<div style="width:300px; height:600px;padding:10px;">
-    <div style="text-align:center;"><b id="locationTitle">${location}</b></div>
+    <div style="text-align:center;"><b id="locationTitle">${location}</b>${starButton.outerHTML}</div>
     <h3>리뷰하기</h3>
     <p style="display:flex;">면 굵기\u00A0\u00A0\u00A0<select id="select1">
       <option value="얇음">얇음</option>
