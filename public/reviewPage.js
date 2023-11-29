@@ -1,4 +1,13 @@
-const areaContent = (location) => {
+const areaContent = (location, reviewData) => {
+  let reviewsElement = "<h3>리뷰 목록</h3>";
+  if (reviewData) {
+    for (const email in reviewData) {
+      const review = reviewData[email];
+      const username = email.split("@")[0];
+      reviewsElement += `<p>${username} : 평가 ${review.평가}</p>`;
+    }
+  }
+
   return `<div style="width:300px; height:600px;padding:10px;">
     <div style="text-align:center;"><b id="locationTitle">${location}</b></div>
     <p>리뷰하기</p>
@@ -24,6 +33,7 @@ const areaContent = (location) => {
     <br><label for="textArea">평가</label>
     <textarea id="textArea"></textarea>
     <button id="submitButton">제출</button>
+    <div id="reviewContainer" style="margin-top: 10px; border-top: 1px solid #ccc;">${reviewsElement}</div>
   </div>`;
 };
 

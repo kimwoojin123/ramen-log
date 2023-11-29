@@ -83,59 +83,47 @@ areaArr.forEach((location, index) => {
     if (infoWindow.getMap()) {
       infoWindow.close();
     } else {
-      const content = areaContent(location.location);
-      const reviewContainer = document.createElement("div");
-      reviewContainer.style.marginTop = "10px";
-      reviewContainer.style.borderTop = "1px solid #ccc";
-
       getReviewsForStore(location.location)
         .then(async (reviewData) => {
           if (reviewData) {
-            const reviewsElement = document.createElement("div");
-            reviewsElement.innerHTML = "<h3>리뷰 목록</h3>";
-            for (const email in reviewData) {
-              const review = reviewData[email];
-              const username = email.split("@")[0];
-              reviewsElement.innerHTML += `<p>${username} : 평가 ${review.평가}</p>`;
+            const content = areaContent(location.location, reviewData);
+            const contentDiv = document.createElement("div");
+            contentDiv.innerHTML = content;
+            infoWindow.setContent(contentDiv.outerHTML);
+            infoWindow.open(map, marker);
+
+            const submitButton = infoWindow.getContentElement().querySelector("#submitButton");
+            if (submitButton) {
+              submitButton.addEventListener("click", () => {
+                const currentUser = firebase.auth().currentUser;
+                if (currentUser) {
+                  const selectedLocation = location.location;
+
+                  const select1 = document.querySelector("#select1");
+                  const select2 = document.querySelector("#select2");
+                  const select3 = document.querySelector("#select3");
+                  const congauge = document.querySelector("#congauge");
+                  const saltgauge = document.querySelector("#saltgauge");
+                  const textArea = document.querySelector("#textArea");
+
+                  const reviewData = {
+                    면굵기: select1.value,
+                    익힘정도: select2.value,
+                    스프베이스: select3.value,
+                    농도: congauge.value,
+                    염도: saltgauge.value,
+                    평가: textArea.value,
+                  };
+                  const reviewerEmail = firebase.auth().currentUser.email;
+                  addReviewToFirestore(selectedLocation, reviewData, reviewerEmail);
+                  alert("리뷰가 작성되었습니다.");
+                } else {
+                  alert("로그인 해주세요.");
+                }
+              });
+            } else {
+              console.error("submitButton 없음");
             }
-
-            reviewContainer.appendChild(reviewsElement);
-
-            infoWindow.setContent(content + reviewContainer.outerHTML);
-          }
-
-          infoWindow.open(map, marker);
-          const submitButton = infoWindow.getContentElement().querySelector("#submitButton");
-          if (submitButton) {
-            submitButton.addEventListener("click", () => {
-              const currentUser = firebase.auth().currentUser;
-              if (currentUser) {
-                const selectedLocation = location.location;
-
-                const select1 = document.querySelector("#select1");
-                const select2 = document.querySelector("#select2");
-                const select3 = document.querySelector("#select3");
-                const congauge = document.querySelector("#congauge");
-                const saltgauge = document.querySelector("#saltgauge");
-                const textArea = document.querySelector("#textArea");
-
-                const reviewData = {
-                  면굵기: select1.value,
-                  익힘정도: select2.value,
-                  스프베이스: select3.value,
-                  농도: congauge.value,
-                  염도: saltgauge.value,
-                  평가: textArea.value,
-                };
-                const reviewerEmail = firebase.auth().currentUser.email;
-                addReviewToFirestore(selectedLocation, reviewData, reviewerEmail);
-                alert("리뷰가 작성되었습니다.");
-              } else {
-                alert("로그인 해주세요.");
-              }
-            });
-          } else {
-            console.error("submitButton 없음");
           }
         })
         .catch((error) => {
@@ -143,7 +131,6 @@ areaArr.forEach((location, index) => {
         });
     }
   });
-
   markers.push(marker);
 });
 
