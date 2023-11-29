@@ -1,7 +1,14 @@
 const pages = {
-  quickSearch: "빠른 검색 페이지 내용",
-  advancedSearch: "고급 검색 페이지 내용",
-  favorites: "즐겨찾기 페이지 내용",
+  quickSearch: "개발중 추후 구현 예정",
+  advancedSearch: "개발중 추후 구현 예정",
+  favorites: `
+  <div id="favoritesPage">
+    <h2>즐겨찾기</h2>
+    <div id="favoriteStores">
+      <!-- 즐겨찾기한 가게 목록이 여기에 표시될 것입니다. -->
+    </div>
+  </div>
+`,
   signup: `<form id="signup-form" action="/">
     <input type="text" name="email" id="email" placeholder="이메일"><br>
     <input type="password" name="pw" id="pw" placeholder="비밀번호"><br>
@@ -13,6 +20,30 @@ const pages = {
     <input type="submit" value="로그인">
   </form>`,
 };
+
+async function renderFavorites() {
+  const favoritesPage = document.getElementById("favoriteStores");
+
+  // 여기서 사용자의 즐겨찾기 목록을 가져오는 로직을 구현해야 합니다.
+  // 이 곳에 가져온 즐겨찾기 목록을 favoritesPage에 추가하는 코드를 작성해야 합니다.
+  try {
+    // Firebase에서 사용자의 즐겨찾기 목록을 가져오는 로직을 구현하세요.
+    // 필요한 경우 Firebase 데이터베이스나 API로부터 데이터를 가져옵니다.
+    // 가져온 데이터를 즐겨찾기 목록에 추가하는 방법에 대한 예시는 아래와 유사할 수 있습니다.
+
+    // 즐겨찾기 목록을 가져왔다고 가정하고, favorites 배열에 저장합니다.
+    const favorites = ["가게 1", "가게 2", "가게 3"]; // 예시 즐겨찾기 목록
+
+    // favorites 배열의 각 아이템을 반복하여 목록에 추가합니다.
+    favorites.forEach((store) => {
+      const storeElement = document.createElement("p");
+      storeElement.textContent = store;
+      favoritesPage.appendChild(storeElement);
+    });
+  } catch (error) {
+    console.error("즐겨찾기 목록을 가져오는 중 에러 발생:", error);
+  }
+}
 
 function renderPage(pageName) {
   const root2 = document.getElementById("root2");
@@ -32,6 +63,8 @@ function renderPage(pageName) {
     if (loginForm) {
       loginForm.addEventListener("submit", loginUser);
     }
+  } else if (pageName === "favorites") {
+    renderFavorites();
   }
 }
 
