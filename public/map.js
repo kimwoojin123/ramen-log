@@ -132,30 +132,35 @@
                 if (currentUser) {
                   const userEmail = currentUser.email;
                   const userRef = db.collection("users").doc(userEmail);
+
+
+                  const userDoc = await userRef.get();
+                  const userData = userDoc.data();
                   const isFavorite = starButton.classList.contains("favorite");
   
+                  if (userData && userData[location.location]) {
+                    starButton.classList.add("favorite");
+                    starButton.innerHTML = "★"; // 즐겨찾기일 때 채워진 별로 변경
+                    starButton.style.color = "yellow"; // 즐겨찾기일 때 별 색상을 변경
+                  } else {
+                    starButton.classList.remove("favorite");
+                    starButton.innerHTML = "☆"; // 즐겨찾기가 아닐 때 빈 별로 변경
+                    starButton.style.color = "black"; // 즐겨찾기가 아닐 때 별 색상을 변경
+                  }
+              
+
                   if (isFavorite) {
                     // 이미 즐겨찾기된 상태이므로 제거
-                    starButton.classList.remove("favorite");
                     await userRef.update({
                       [location.location]: firebase.firestore.FieldValue.delete(),
                     });
                   } else {
                     // 즐겨찾기 추가
-                    starButton.classList.add("favorite");
                     await userRef.set({
                       [location.location] : true
                     });
                   }
 
-
-                  if (isFavorite) {
-                    starButton.style.color = "black"; // 즐겨찾기가 아닐 때 별 색상을 변경해주세요.
-                    starButton.innerHTML = "☆"; // 빈 별로 변경
-                  } else {
-                    starButton.innerHTML = "★"; // 채워진 별로 변경
-                    starButton.style.color = "yellow"; // 즐겨찾기일 때 별 색상을 변경해주세요.
-                  }
 
                 } else {
                   // 로그인되어 있지 않은 경우 처리
@@ -195,3 +200,39 @@
       return null;
     }
   }
+
+
+  function watchFavoriteStatus(location) {
+    const currentUser = firebase.auth().currentUser;
+  
+    if (currentUser) {
+      const userEmail = currentUser.email;
+      const userRef = db.collection("users").doc(userEmail);
+  
+      const unsubscribe = userRef.onSnapshot((snapshot) => {
+        const userData = snapshot.data();
+        const starButton = document.getElementById(`starButton_${location}`);
+  
+        if (starButton) {
+          if (userData && userData[location]) {
+            starButton.classList.add("favorite");
+            starButton.innerHTML = "★";
+            starButton.style.color = "yellow";
+          } else {
+            starButton.classList.remove("favorite");
+            starButton.innerHTML = "☆";
+            starButton.style.color = "black";
+          }
+        }
+      });
+  
+      // 이전에 등록된 리스너를 제거하는 코드
+      if (location in unsubscribe) {
+        unsubscribe[location]();
+      }
+    }
+  }
+  
+  areaArr.forEach((location) => {
+    watchFavoriteStatus(location.location);
+  });
