@@ -1,6 +1,5 @@
-const createStarButton = (location) => {
+const createStarButton = (location, isFavorite) => {
   const starButton = document.createElement("button");
-  starButton.innerHTML = "☆";
   starButton.classList.add("star-btn");
   starButton.style.backgroundColor = "transparent";
   starButton.style.border = "none";
@@ -8,10 +7,20 @@ const createStarButton = (location) => {
   starButton.style.fontSize = "20px";
   starButton.id = `starButton_${location}`; // ID 추가
 
+  if (isFavorite) {
+    starButton.innerHTML = "★";
+    starButton.style.color = "yellow";
+    starButton.classList.add("favorite");
+  } else {
+    starButton.innerHTML = "☆";
+    starButton.style.color = "black";
+    starButton.classList.remove("favorite");
+  }
+
   return starButton;
 };
 
-const areaContent = (location, reviewData) => {
+const areaContent = (location, reviewData, isFavorite) => {
   let reviewsElement = "<h3>리뷰 목록</h3>";
   if (reviewData) {
     reviewsElement += "<ul>"; // 목록을 나타내기 위해 ul 태그 추가
@@ -31,7 +40,7 @@ const areaContent = (location, reviewData) => {
     reviewsElement += "</ul>"; // ul 태그 닫기
   }
 
-  const starButton = createStarButton(location); // 별 버튼 생성
+  const starButton = createStarButton(location, isFavorite); // 별 버튼 생성
 
   return `<div style="width:300px; height:600px;padding:10px;">
     <div style="text-align:center;"><b id="locationTitle">${location}</b>${starButton.outerHTML}</div>
@@ -62,4 +71,4 @@ const areaContent = (location, reviewData) => {
   </div>`;
 };
 
-export default areaContent;
+export {areaContent, createStarButton};
