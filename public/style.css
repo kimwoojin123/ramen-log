@@ -1,5 +1,5 @@
 *{margin:0; padding:0; box-sizing: border-box;}
-body{width :420px; height:740px}
+body{width :100vw; height:100vh;overflow: hidden;}
 #head {
   width:100%;
   height:10%;
