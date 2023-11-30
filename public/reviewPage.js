@@ -50,7 +50,6 @@ const areaContent = (location, reviewData, isFavorite, showDetailedInfo) => {
       if (review["평가"] !== undefined) {
         reviewsElement += `<br>평가: ${review["평가"]}`;
       }
-      reviewsElement = reviewsElement.slice(0, -2); // 마지막 쉼표 제거
       reviewsElement += `</li>`;
     }
     reviewsElement += "</ul>"; // ul 태그 닫기
