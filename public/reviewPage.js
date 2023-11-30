@@ -70,7 +70,7 @@ const areaContent = (location, reviewData, isFavorite) => {
     <br><label for="textArea">평가</label>
     <textarea id="textArea"></textarea>
     <button id="submitButton">제출</button>
-    <div id="reviewContainer" style="margin-top: 10px; border-top: 1px solid #ccc;">${reviewsElement}</div>
+    <div id="reviewContainer" style="height: 330px; overflow-y: auto; margin-top: 10px; border-top: 1px solid #ccc;">${reviewsElement}</div>
   </div>`;
 };
 

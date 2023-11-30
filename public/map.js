@@ -102,6 +102,11 @@ areaArr.forEach((location, index) => {
             const content = areaContent(location.location, reviewData, isFavorite);
             const contentDiv = document.createElement("div");
             contentDiv.innerHTML = content;
+            const infoWindowStyle = `
+                max-width: 295px;
+                word-wrap: break-word;
+              `;
+            contentDiv.setAttribute("style", infoWindowStyle);
             infoWindow.setContent(contentDiv.outerHTML);
             infoWindow.open(map, marker);
 
