@@ -35,7 +35,7 @@ const areaContent = (location, reviewData, isFavorite, showDetailedInfo) => {
 
   let reviewsElement = "<h3>리뷰 목록</h3>";
   if (reviewData) {
-    reviewsElement += "<ul>"; // 목록을 나타내기 위해 ul 태그 추가
+    reviewsElement += "<ul style='font-size: 12px;'>"; // 목록을 나타내기 위해 ul 태그 추가
     for (const email in reviewData) {
       const review = reviewData[email];
       const username = email.split("@")[0];
