@@ -24,12 +24,12 @@ const pages = {
     </div>
   </div>
 `,
-  signup: `<form id="signup-form" action="/">
+  signup: `<form id="signup-form" action="/"><label for="singup-form"><h1>회원가입</h1></label>
     <input type="text" name="email" id="email" placeholder="이메일"><br>
-    <input type="password" name="pw" id="pw" placeholder="비밀번호"><br>
+    <input type="password" name="pw" id="pw" placeholder="비밀번호"><br><br>
     <input type="submit" value="가입">
     </form>`,
-  login: `<form id="login-form" action="/">
+  login: `<form id="login-form" action="/"><label for="singup-form"><h1>로그인</h1></label>
     <input type="text" name="email" id="email" placeholder="이메일"><br>
     <input type="password" name="pw" id="pw" placeholder="비밀번호"><br><br>
     <input type="submit" value="로그인">

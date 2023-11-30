@@ -26,6 +26,12 @@ body{width :420px; height:740px}
   justify-content: center;
   align-items: center;
 }
+
+#root3{
+  display:flex;
+  justify-content: center;
+  padding-top : 30vh;
+}
 .menu {
   display: none; /* 초기에 숨김 */
   position:fixed;

@@ -45,17 +45,20 @@ const areaContent = (location, reviewData, isFavorite) => {
   return `<div style="width:300px; height:600px;padding:10px;">
     <div style="text-align:center;"><b id="locationTitle">${location}</b>${starButton.outerHTML}</div>
     <h3>리뷰하기</h3>
-    <p style="display:flex;">면 굵기\u00A0\u00A0\u00A0<select id="select1">
+    <p style="display:flex;">면 굵기\u00A0\u00A0\u00A0<select id="select1" required="required">
+      <option value="" selected disabled hidden>선택</option>
       <option value="얇음">얇음</option>
       <option value="중간">중간</option>
       <option value="굵음">굵음</option>
     </select></p>
-    <p style="display:flex;">익힘정도\u00A0\u00A0<select id="select2">
+    <p style="display:flex;">익힘정도\u00A0\u00A0<select id="select2" required="required">
+      <option value="" selected disabled hidden>선택</option>
       <option value="단단함">단단함</option>
       <option value="보통">보통</option>
       <option value="부드러움">부드러움</option>
     </select></p>
-    <p style="display:flex;">스프베이스\u00A0\u00A0<select id="select3">
+    <p style="display:flex;">스프베이스\u00A0\u00A0<select id="select3" required="required">
+      <option value="" selected disabled hidden>선택</option>
       <option value="쇼유">쇼유</option>
       <option value="시오">시오</option>
       <option value="돈코츠">돈코츠</option>
