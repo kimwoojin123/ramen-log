@@ -76,13 +76,13 @@ async function renderFavorites() {
   }
 }
 function renderPage(pageName) {
-  const root2 = document.getElementById("root2");
-  const root3 = document.getElementById("root3");
+  const mapArea = document.getElementById("mapArea");
+  const board = document.getElementById("board");
 
   // 맵을 숨김
-  root2.style.display = "none";
+  mapArea.style.display = "none";
   // 내용을 표시
-  root3.innerHTML = pages[pageName];
+  board.innerHTML = pages[pageName];
   if (pageName === "signup") {
     const signupForm = document.getElementById("signup-form");
     if (signupForm) {
