@@ -35,6 +35,9 @@ body{width :420px; height:740px}
   top : 8vh;
 }
 .menu>ul>li{
+  display:flex;
+  justify-content: center;
+  align-items: center;
   width:25vw;
   height:5vh;
   list-style: none;
