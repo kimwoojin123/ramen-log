@@ -99,7 +99,7 @@ areaArr.forEach((location, index) => {
         .then(async (reviewData) => {
           if (reviewData) {
             const isFavorite = await handleFavoriteStatus(location.location);
-            const content = areaContent(location.location, reviewData, isFavorite);
+            const content = areaContent(location.location, reviewData, isFavorite, false);
             const contentDiv = document.createElement("div");
             contentDiv.innerHTML = content;
             const infoWindowStyle = `
@@ -109,6 +109,15 @@ areaArr.forEach((location, index) => {
             contentDiv.setAttribute("style", infoWindowStyle);
             infoWindow.setContent(contentDiv.outerHTML);
             infoWindow.open(map, marker);
+
+            const detailedInfoButton = infoWindow.getContentElement().querySelector("#detailedInfoButton");
+            if (detailedInfoButton) {
+              detailedInfoButton.addEventListener("click", () => {
+                const newContent = areaContent(location.location, reviewData, isFavorite, true);
+                contentDiv.innerHTML = newContent;
+                infoWindow.setContent(contentDiv.outerHTML);
+              });
+            }
 
             const submitButton = infoWindow.getContentElement().querySelector("#submitButton");
             if (submitButton) {

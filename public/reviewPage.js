@@ -20,7 +20,19 @@ const createStarButton = (location, isFavorite) => {
   return starButton;
 };
 
-const areaContent = (location, reviewData, isFavorite) => {
+const areaContent = (location, reviewData, isFavorite, showDetailedInfo) => {
+  if (showDetailedInfo) {
+    // 상세 정보 페이지의 내용을 표시하는 코드
+    return `<div style="width:300px; height:600px;padding:10px;">
+      <div style="text-align:center; border-bottom : 1px solid #ccc;">
+      <button id="reviewPageButton" style="position : absolute; left:2vw;">리뷰페이지</button>
+      <b id="locationTitle">${location}</b>
+      </div><br>
+      <h3>상세정보</h3>
+      <p>근시일내 구현예정.</p>
+    </div>`;
+  }
+
   let reviewsElement = "<h3>리뷰 목록</h3>";
   if (reviewData) {
     reviewsElement += "<ul>"; // 목록을 나타내기 위해 ul 태그 추가
@@ -43,8 +55,8 @@ const areaContent = (location, reviewData, isFavorite) => {
   const starButton = createStarButton(location, isFavorite); // 별 버튼 생성
 
   return `<div style="width:300px; height:600px;padding:10px;">
-    <div style="text-align:center;"><b id="locationTitle">${location}</b>${starButton.outerHTML}</div>
-    <h3>리뷰하기</h3>
+    <div style="text-align:center; border-bottom : 1px solid #ccc;"><button id="detailedInfoButton" style="position : absolute; left:2vw;">상세정보</button><b id="locationTitle">${location}</b>${starButton.outerHTML}</div>
+    <h3 style="margin-top:1vh;">리뷰하기</h3>
     <p style="display:flex;">면 굵기\u00A0\u00A0\u00A0<select id="select1" required="required">
       <option value="" selected disabled hidden>선택</option>
       <option value="얇음">얇음</option>
@@ -70,7 +82,7 @@ const areaContent = (location, reviewData, isFavorite) => {
     <br><label for="textArea">평가</label>
     <textarea id="textArea"></textarea>
     <button id="submitButton">제출</button>
-    <div id="reviewContainer" style="height: 330px; overflow-y: auto; margin-top: 10px; border-top: 1px solid #ccc;">${reviewsElement}</div>
+    <div id="reviewContainer" style="height: 330px; overflow-y: auto; margin-top: 1vh; border-top: 1px solid #ccc;">${reviewsElement}</div>
   </div>`;
 };
 
