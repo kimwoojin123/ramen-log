@@ -231,6 +231,16 @@ async function handleFavoriteStatus(location, starButton) {
     const userEmail = currentUser.email;
     const userRef = db.collection("users").doc(userEmail);
 
+    const userDoc = await userRef.get();
+    if (!userDoc.exists) {
+      try {
+        await userRef.set({}); // 현재 로그인한 사용자의 데이터 문서 생성
+        console.log("Document created for user:", userEmail);
+      } catch (error) {
+        console.error("Error creating document:", error);
+      }
+    }
+
     const unsubscribe = userRef.onSnapshot((snapshot) => {
       const userData = snapshot.data();
 
