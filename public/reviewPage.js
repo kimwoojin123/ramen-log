@@ -42,10 +42,14 @@ const areaContent = (location, reviewData, isFavorite, showDetailedInfo) => {
       reviewsElement += `<li><b>${username}</b>: `;
       const orderedKeys = ["면굵기", "익힘정도", "스프베이스", "농도", "염도", "평가"]; // 원하는 순서로 키 배열 정의
       orderedKeys.forEach((key) => {
-        if (review[key] !== undefined) {
+        if (key !== "평가" && review[key] !== undefined) {
           reviewsElement += `${key}: ${review[key]}, `;
         }
       });
+
+      if (review["평가"] !== undefined) {
+        reviewsElement += `<br>평가: ${review["평가"]}`;
+      }
       reviewsElement = reviewsElement.slice(0, -2); // 마지막 쉼표 제거
       reviewsElement += `</li>`;
     }
