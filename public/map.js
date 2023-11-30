@@ -33,6 +33,18 @@ function addLocationToFirestore(locationObj) {
 let areaArr = [
   {location: "멘야이토", lat: 36.35026761782584, lng: 127.37714510689068},
   {location: "멘야산다이메", lat: 36.352281017969304, lng: 127.3773707115313},
+  {location: "미도인 둔산점", lat: 36.3540622, lng: 127.3772998},
+  {location: "로얄라멘", lat: 36.3533879, lng: 127.369888},
+  {location: "라멘무라본점", lat: 36.3414282, lng: 127.3908614},
+  {location: "스바라시라멘 봉명점", lat: 36.3594511, lng: 127.3443237},
+  {location: "건담s", lat: 36.2955764, lng: 127.3386544},
+  {location: "마쯔미라멘", lat: 36.3631243, lng: 127.3587492},
+  {location: "본미당", lat: 36.33969344181235, lng: 127.3903357217206},
+  {location: "쇼부라멘", lat: 36.35467888354794, lng: 127.36341807493798},
+  {location: "멘무샤", lat: 36.3465578, lng: 127.3886295},
+  {location: "라멘우에무라", lat: 36.42462610207738, lng: 127.39026040477499},
+  {location: "그레이토라멘", lat: 36.3554323, lng: 127.3781087},
+  {location: "라멘81번옥", lat: 36.36189, lng: 127.3474045},
 ];
 
 areaArr.forEach((location) => {
